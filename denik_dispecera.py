@@ -139,26 +139,10 @@ def add_carrier_if_new(carrier_name):
 # Funkce pro přidání nového místa do databáze locations
 def add_location_if_new(location_name, table_name):
     if location_name:
-        # Kontrola existence místa v tabulce 'load_locations'
-        if table_name == 'load_locations':
-            cursor_locations.execute("SELECT * FROM load_locations WHERE location_name = ?", (location_name,))
-            if not cursor_locations.fetchone():  # Pokud místo neexistuje, přidejte ho
-                cursor_locations.execute('''
-                    INSERT INTO load_locations (location_name, street, postal_code, city, working_hours_from, working_hours_to, contact_person, mobile, email, note) 
-                    VALUES (?, '', '', '', '', '', '', '', '', '')
-                ''', (location_name,))
-        
-        # Kontrola existence místa v tabulce 'unload_locations'
-        elif table_name == 'unload_locations':
-            cursor_locations.execute("SELECT * FROM unload_locations WHERE location_name = ?", (location_name,))
-            if not cursor_locations.fetchone():  # Pokud místo neexistuje, přidejte ho
-                cursor_locations.execute('''
-                    INSERT INTO unload_locations (location_name, street, postal_code, city, working_hours_from, working_hours_to, contact_person, mobile, email, note) 
-                    VALUES (?, '', '', '', '', '', '', '', '', '')
-                ''', (location_name,))
-        
-        # Uložit změny
-        conn_locations.commit()
+        cursor_locations.execute(f"SELECT * FROM {table_name} WHERE location_name = ?", (location_name,))
+        if not cursor_locations.fetchone():  # Pokud místo neexistuje, přidejte ho
+            cursor_locations.execute(f"INSERT INTO {table_name} (location_name) VALUES (?)", (location_name,))
+            conn_locations.commit()
 
 # Funkce pro aktualizaci ComboBoxů a zajištění absence duplicit
 def update_comboboxes():
