@@ -79,6 +79,10 @@ def show_locations():
         
         data = tuple(entries[field].get() if entries[field].get() else "" for field in fields)
 
+        if not (location_name):
+            messagebox.showwarning("Varování", "Název firmy je povinné.")
+            return
+
         cursor_locations.execute("""
             INSERT INTO load_locations (location_name, street, postal_code, city, working_hours_from, working_hours_to, 
                                         contact_person, mobile, email, note)
@@ -234,3 +238,4 @@ def show_locations():
 
 # Volání funkce pro zobrazení dat
 show_locations()
+
