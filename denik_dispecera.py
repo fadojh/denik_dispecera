@@ -210,11 +210,14 @@ def open_manage_carriers():
         # Dimensions for the new window
         new_window_width = 300
         new_window_height = 200
+        
+        # Otevření manage_locations.py a předání argumentů
+        script_path = os.path.join(os.path.dirname(__file__), "app", "manage_carriers.py")
 
         # Open manage_carriers.py and pass the position arguments
         process = subprocess.Popen([
-            "python", 
-            os.path.join("app", "manage_carriers.py"),
+            "python3", 
+            script_path,
             str(new_window_width),
             str(new_window_height)
         ])
@@ -232,9 +235,12 @@ def open_manage_locations():
         new_window_height = 400
 
         # Otevření manage_locations.py a předání argumentů
+        script_path = os.path.join(os.path.dirname(__file__), "app", "manage_locations.py")
+
+        # Otevření manage_locations.py a předání argumentů
         process = subprocess.Popen([
-            "python", 
-            os.path.join("app", "manage_locations.py"),
+            "python3", 
+            script_path,
             str(new_window_width),
             str(new_window_height),
             
