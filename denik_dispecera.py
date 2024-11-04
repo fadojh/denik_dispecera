@@ -9,6 +9,7 @@ import os
 import json
 from tkinter import Menu
 import locale
+import sys
 
 # Načtení dat ze souboru
 from app.connect import *
@@ -17,13 +18,16 @@ from app.add_orders import add_order
 from app.delete_orders import delete_order
 from app.main_menu_orders import create_menu
 
+# Zjištění systému OS (Windows, Linux, MacOS)
+python_command = "python3" if sys.platform != "win32" else "python"
+
+
 # Create main window
 root = tk.Tk()
 root.title("Deník dispečera")
 
 # Reverse mapping for search queries
 reverse_column_mapping = {v: k for k, v in column_mapping.items()}
-
 
 
 # Function to search orders based on user-selected column
@@ -161,8 +165,6 @@ def add_location_if_new(location_name, table_name, street="", postal_code="", ci
             print(f"Místo '{location_name}' již existuje v tabulce '{table_name}' a nebude přidáno.")
 
 
-
-
 # Funkce pro aktualizaci ComboBoxů a zajištění absence duplicit
 def update_comboboxes():
     entry_carrier_combobox['values'] = load_carriers()
@@ -216,7 +218,7 @@ def open_manage_carriers():
 
         # Open manage_carriers.py and pass the position arguments
         process = subprocess.Popen([
-            "python3", 
+            python_command, 
             script_path,
             str(new_window_width),
             str(new_window_height)
@@ -239,7 +241,7 @@ def open_manage_locations():
 
         # Otevření manage_locations.py a předání argumentů
         process = subprocess.Popen([
-            "python3", 
+            python_command,
             script_path,
             str(new_window_width),
             str(new_window_height),
@@ -264,8 +266,6 @@ def save_main_window_position():
     except Exception as e:
         print(f"Error saving window position: {e}")
     
-
-
 # Funkce pro uložení pozice hlavního okna
 def save_main_window_position():
     try:
@@ -277,10 +277,6 @@ def save_main_window_position():
             json.dump({"x": x, "y": y, "width": width, "height": height}, f)
     except Exception as e:
         print(f"Chyba při ukládání pozice okna: {e}")
-
-
-
-
 
 # Function to handle arrow keys in Treeview
 def handle_arrow_keys(event):
@@ -453,8 +449,6 @@ def update_carrier_entry(event):
 # Create the text entry field for manual input (keep both entry and combobox for flexibility)
 entry_carrier = tk.Entry(root)
 entry_carrier.grid(row=10, column=0, sticky="w", padx=105, pady=pad_y)
-
-
 
 # Function to load carriers from the carriers database
 def load_carriers():
